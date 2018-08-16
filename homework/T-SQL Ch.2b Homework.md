@@ -9,11 +9,11 @@
 
 1. Using the SELECT RTRIM(LTRIM('  Dave  '));
 
-1. SELECT name, FROM college.id, WHERE name LIKE N'Institute%';
+1. SELECT name, FROM college, WHERE name LIKE N'Institute%';
 
 1. I would use SELECT CHARINDEX(' ','BARRACK HUSSEIN OBAMA')
 
-1. a 
+1. SELECT the first space after the name and return all values before the space  
 
 1. The precedence among the logical operators is From, Where, Group By, Having, Select, and Order By.
    
