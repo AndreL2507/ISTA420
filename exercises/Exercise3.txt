@@ -1,0 +1,276 @@
+.headers ON
+
+--Name: Andre Lacquement
+--File: Exercise3.sql
+--Date: 21 August, 2018
+
+--1
+select orderid, productid, unitprice, quantity, (unitprice * quantity) as LineTotal, 
+round(((unitprice * quantity) * 100) / (select sum(unitprice * quantity) from order_details group by orderid),2) as Pct 
+from order_details limit 25;
+OrderID|ProductID|UnitPrice|Quantity|LineTotal|Pct
+10248|11|14.0|12|168.0|38.18
+10248|42|9.8|10|98.0|22.27
+10248|72|34.8|5|174.0|39.55
+10249|14|18.6|9|167.4|38.05
+10249|51|42.4|40|1696.0|385.45
+10250|41|7.7|10|77.0|17.5
+10250|51|42.4|35|1484.0|337.27
+10250|65|16.8|15|252.0|57.27
+10251|22|16.8|6|100.8|22.91
+10251|57|15.6|15|234.0|53.18
+10251|65|16.8|20|336.0|76.36
+10252|20|64.8|40|2592.0|589.09
+10252|33|2.0|25|50.0|11.36
+10252|60|27.2|40|1088.0|247.27
+10253|31|10.0|20|200.0|45.45
+10253|39|14.4|42|604.8|137.45
+10253|49|16.0|40|640.0|145.45
+10254|24|3.6|15|54.0|12.27
+10254|55|19.2|21|403.2|91.64
+10254|74|8.0|21|168.0|38.18
+10255|2|15.2|20|304.0|69.09
+10255|16|13.9|35|486.5|110.57
+10255|36|15.2|25|380.0|86.36
+10255|59|44.0|30|1320.0|300.0
+10256|53|26.2|15|393.0|89.32
+
+--2a
+select distinct c.city, c.region, c.postalcode, 
+ e.city, e.region, e.postalcode from customers c 
+ join employees e on c.city = e.city;
+City|Region|PostalCode|City|Region|PostalCode
+London||WA1 1DP|London|NULL|EC2 7JR
+London||WA1 1DP|London|NULL|RG1 9SP
+London||WA1 1DP|London|NULL|SW1 8JR
+London||WA1 1DP|London|NULL|WG2 7LT
+London||EC2 5NT|London|NULL|EC2 7JR
+London||EC2 5NT|London|NULL|RG1 9SP
+London||EC2 5NT|London|NULL|SW1 8JR
+London||EC2 5NT|London|NULL|WG2 7LT
+London||WX1 6LT|London|NULL|EC2 7JR
+London||WX1 6LT|London|NULL|RG1 9SP
+London||WX1 6LT|London|NULL|SW1 8JR
+London||WX1 6LT|London|NULL|WG2 7LT
+London||WX3 6FW|London|NULL|EC2 7JR
+London||WX3 6FW|London|NULL|RG1 9SP
+London||WX3 6FW|London|NULL|SW1 8JR
+London||WX3 6FW|London|NULL|WG2 7LT
+London||SW7 1RZ|London|NULL|EC2 7JR
+London||SW7 1RZ|London|NULL|RG1 9SP
+London||SW7 1RZ|London|NULL|SW1 8JR
+London||SW7 1RZ|London|NULL|WG2 7LT
+London||OX15 4NB|London|NULL|EC2 7JR
+London||OX15 4NB|London|NULL|RG1 9SP
+London||OX15 4NB|London|NULL|SW1 8JR
+London||OX15 4NB|London|NULL|WG2 7LT
+Kirkland|WA|98034|Kirkland|WA|98033
+Seattle|WA|98128|Seattle|WA|98105
+Seattle|WA|98128|Seattle|WA|98122
+--2b
+select distinct c.city, c.region, c.postalcode, e.city, e.region, e.postalcode 
+from customers c 
+left outer join employees e on c.city = e.city;
+City|Region|PostalCode|City|Region|PostalCode
+City|Region|PostalCode|||
+Berlin||12209|||
+México D.F.||05021|||
+México D.F.||05023|||
+London||WA1 1DP|London|NULL|EC2 7JR
+London||WA1 1DP|London|NULL|RG1 9SP
+London||WA1 1DP|London|NULL|SW1 8JR
+London||WA1 1DP|London|NULL|WG2 7LT
+Luleå||S-958 22|||
+Mannheim||68306|||
+Strasbourg||67000|||
+Madrid||28023|||
+Marseille||13008|||
+Tsawassen|BC|T2F 8M4|||
+London||EC2 5NT|London|NULL|EC2 7JR
+London||EC2 5NT|London|NULL|RG1 9SP
+London||EC2 5NT|London|NULL|SW1 8JR
+London||EC2 5NT|London|NULL|WG2 7LT
+Buenos Aires||1010|||
+México D.F.||05022|||
+Bern||3012|||
+Sao Paulo|SP|05432-043|||
+London||WX1 6LT|London|NULL|EC2 7JR
+London||WX1 6LT|London|NULL|RG1 9SP
+London||WX1 6LT|London|NULL|SW1 8JR
+London||WX1 6LT|London|NULL|WG2 7LT
+Aachen||52066|||
+Nantes||44000|||
+London||WX3 6FW|London|NULL|EC2 7JR
+London||WX3 6FW|London|NULL|RG1 9SP
+London||WX3 6FW|London|NULL|SW1 8JR
+London||WX3 6FW|London|NULL|WG2 7LT
+Graz||8010|||
+Sao Paulo|SP|05442-030|||
+Madrid||28034|||
+Lille||59000|||
+Bräcke||S-844 67|||
+München||80805|||
+Torino||10100|||
+Lisboa||1675|||
+Barcelona||08022|||
+Sevilla||41101|||
+Campinas|SP|04876-786|||
+Eugene|OR|97403|||
+Caracas|DF|1081|||
+Rio de Janeiro|RJ|05454-876|||
+San Cristóbal|Táchira|5022|||
+Elgin|OR|97827|||
+Cork|Co. Cork||||
+Cowes|Isle of Wight|PO31 7PJ|||
+Brandenburg||14776|||
+Versailles||78000|||
+Toulouse||31000|||
+Vancouver|BC|V3F 2K1|||
+Walla Walla|WA|99362|||
+Frankfurt a.M.||60528|||
+San Francisco|CA|94117|||
+Barquisimeto|Lara|3508|||
+I. de Margarita|Nueva Esparta|4980|||
+Portland|OR|97219|||
+Bergamo||24100|||
+Bruxelles||B-1180|||
+Montréal|Québec|H1J 1C3|||
+Leipzig||04179|||
+London||SW7 1RZ|London|NULL|EC2 7JR
+London||SW7 1RZ|London|NULL|RG1 9SP
+London||SW7 1RZ|London|NULL|SW1 8JR
+London||SW7 1RZ|London|NULL|WG2 7LT
+Anchorage|AK|99508|||
+Köln||50739|||
+Paris||75012|||
+México D.F.||05033|||
+Salzburg||5020|||
+Lisboa||1756|||
+Rio de Janeiro|RJ|02389-673|||
+Sao Paulo|SP|05487-020|||
+Cunewalde||01307|||
+Albuquerque|NM|87110|||
+Reggio Emilia||42100|||
+Rio de Janeiro|RJ|02389-890|||
+Genève||1203|||
+Madrid||28001|||
+Stavern||4110|||
+Boise|ID|83720|||
+London||OX15 4NB|London|NULL|EC2 7JR
+London||OX15 4NB|London|NULL|RG1 9SP
+London||OX15 4NB|London|NULL|SW1 8JR
+London||OX15 4NB|London|NULL|WG2 7LT
+Kobenhavn||1734|||
+Paris||75016|||
+Lander|WY|82520|||
+Charleroi||B-6000|||
+Portland|OR|97201|||
+Butte|MT|59801|||
+Münster||44087|||
+Sao Paulo|SP|05634-030|||
+Kirkland|WA|98034|Kirkland|WA|98033
+Århus||8200|||
+Lyon||69004|||
+Reims||51100|||
+Stuttgart||70563|||
+Oulu||90110|||
+Resende|SP|08737-363|||
+Seattle|WA|98128|Seattle|WA|98105
+Seattle|WA|98128|Seattle|WA|98122
+Helsinki||21240|||
+Warszawa||01-012|||
+--2c
+select distinct c.city, c.region, c.postalcode, e.city, e.region, e.postalcode 
+from employees e
+left outer join customers c on c.city = e.city;
+City|Region|PostalCode|City|Region|PostalCode
+Seattle|WA|98128|Seattle|WA|98122
+|||Tacoma|WA|98401
+Kirkland|WA|98034|Kirkland|WA|98033
+|||Redmond|WA|98052
+London||EC2 5NT|London|NULL|SW1 8JR
+London||OX15 4NB|London|NULL|SW1 8JR
+London||SW7 1RZ|London|NULL|SW1 8JR
+London||WA1 1DP|London|NULL|SW1 8JR
+London||WX1 6LT|London|NULL|SW1 8JR
+London||WX3 6FW|London|NULL|SW1 8JR
+London||EC2 5NT|London|NULL|EC2 7JR
+London||OX15 4NB|London|NULL|EC2 7JR
+London||SW7 1RZ|London|NULL|EC2 7JR
+London||WA1 1DP|London|NULL|EC2 7JR
+London||WX1 6LT|London|NULL|EC2 7JR
+London||WX3 6FW|London|NULL|EC2 7JR
+London||EC2 5NT|London|NULL|RG1 9SP
+London||OX15 4NB|London|NULL|RG1 9SP
+London||SW7 1RZ|London|NULL|RG1 9SP
+London||WA1 1DP|London|NULL|RG1 9SP
+London||WX1 6LT|London|NULL|RG1 9SP
+London||WX3 6FW|London|NULL|RG1 9SP
+Seattle|WA|98128|Seattle|WA|98105
+London||EC2 5NT|London|NULL|WG2 7LT
+London||OX15 4NB|London|NULL|WG2 7LT
+London||SW7 1RZ|London|NULL|WG2 7LT
+London||WA1 1DP|London|NULL|WG2 7LT
+London||WX1 6LT|London|NULL|WG2 7LT
+London||WX3 6FW|London|NULL|WG2 7LT
+--3
+select productid, productname, (quantityperunit / unitprice) 
+as Priceperunit from products 
+order by Priceperunit desc limit 10;
+ProductID|ProductName|Priceperunit
+33|Geitost|200.0
+39|Chartreuse verte|41.6666666666667
+76|Lakkalikööri|27.7777777777778
+26|Gumbär Gummibärchen|3.2020493115594
+75|Rhönbräu Klosterbier|3.09677419354839
+24|Guaraná Fantástica|2.66666666666667
+21|Sir Rodney's Scones|2.4
+42|Singaporean Hokkien Fried Mee|2.28571428571429
+52|Filo Mix|2.28571428571429
+27|Schoggi Schokolade|2.27790432801822
+
+--4
+select employeeid, orderdate from orders 
+where orderdate <= julianday('now') 
+group by employeeid;
+EmployeeID|OrderDate
+1|1998-05-06
+2|1998-05-05
+3|1998-04-30
+4|1998-05-06
+5|1998-04-22
+6|1998-04-23
+7|1998-05-06
+8|1998-05-06
+9|1998-04-29
+
+--5
+select orderid, productid, unitprice, quantity, (unitprice * quantity) as LineTotal, 
+round(((unitprice * quantity) * 100) / (select sum(unitprice * quantity) from order_details group by orderid),2) as Pct 
+from order_details limit 25;
+OrderID|ProductID|UnitPrice|Quantity|LineTotal|Pct
+10248|11|14.0|12|168.0|38.18
+10248|42|9.8|10|98.0|22.27
+10248|72|34.8|5|174.0|39.55
+10249|14|18.6|9|167.4|38.05
+10249|51|42.4|40|1696.0|385.45
+10250|41|7.7|10|77.0|17.5
+10250|51|42.4|35|1484.0|337.27
+10250|65|16.8|15|252.0|57.27
+10251|22|16.8|6|100.8|22.91
+10251|57|15.6|15|234.0|53.18
+10251|65|16.8|20|336.0|76.36
+10252|20|64.8|40|2592.0|589.09
+10252|33|2.0|25|50.0|11.36
+10252|60|27.2|40|1088.0|247.27
+10253|31|10.0|20|200.0|45.45
+10253|39|14.4|42|604.8|137.45
+10253|49|16.0|40|640.0|145.45
+10254|24|3.6|15|54.0|12.27
+10254|55|19.2|21|403.2|91.64
+10254|74|8.0|21|168.0|38.18
+10255|2|15.2|20|304.0|69.09
+10255|16|13.9|35|486.5|110.57
+10255|36|15.2|25|380.0|86.36
+10255|59|44.0|30|1320.0|300.0
+10256|53|26.2|15|393.0|89.32
